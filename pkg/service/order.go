@@ -2,6 +2,7 @@ package service
 
 import (
 	"context"
+	"fmt"
 	"net/http"
 
 	"github.com/manumura/go-grpc-order-svc/pkg/client"
@@ -11,12 +12,15 @@ import (
 )
 
 type Server struct {
+	pb.UnimplementedOrderServiceServer
 	H          db.Handler
 	ProductSvc client.ProductServiceClient
 }
 
 func (s *Server) CreateOrder(ctx context.Context, req *pb.CreateOrderRequest) (*pb.CreateOrderResponse, error) {
+	fmt.Printf("Create order request: %++v\n", req)
 	product, err := s.ProductSvc.FindOne(req.ProductId)
+	fmt.Printf("Find one product result: %++v\n", product)
 
 	if err != nil {
 		return &pb.CreateOrderResponse{Status: http.StatusBadRequest, Error: err.Error()}, nil
@@ -33,14 +37,15 @@ func (s *Server) CreateOrder(ctx context.Context, req *pb.CreateOrderRequest) (*
 	}
 
 	s.H.DB.Create(&order)
+	fmt.Printf("Create order: %++v\n", order)
 
 	res, err := s.ProductSvc.DecreaseStock(req.ProductId, order.Id)
+	fmt.Printf("Decrease Stock result: %++v\n", res)
 
 	if err != nil {
 		return &pb.CreateOrderResponse{Status: http.StatusBadRequest, Error: err.Error()}, nil
 	} else if res.Status == http.StatusConflict {
 		s.H.DB.Delete(&models.Order{}, order.Id)
-
 		return &pb.CreateOrderResponse{Status: http.StatusConflict, Error: res.Error}, nil
 	}
 

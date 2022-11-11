@@ -1,15 +1,12 @@
 module github.com/manumura/go-grpc-order-svc
 
-go 1.18
+go 1.19
 
 require google.golang.org/grpc v1.45.0
 
 require (
-	aidanwoods.dev/go-paseto v1.0.1 // indirect
 	github.com/fsnotify/fsnotify v1.5.1 // indirect
-	github.com/golang-jwt/jwt v3.2.2+incompatible // indirect
 	github.com/hashicorp/hcl v1.0.0 // indirect
-	github.com/manumura/go-grpc-proto v0.0.0-20220323215141-ce7817ac1f88 // indirect
 	github.com/jackc/chunkreader/v2 v2.0.1 // indirect
 	github.com/jackc/pgconn v1.10.1 // indirect
 	github.com/jackc/pgio v1.0.0 // indirect
@@ -41,7 +38,7 @@ require (
 	golang.org/x/sys v0.0.0-20220319134239-a9b59b0215f8 // indirect
 	golang.org/x/text v0.3.7 // indirect
 	google.golang.org/genproto v0.0.0-20211208223120-3a66f561d7aa // indirect
-	google.golang.org/protobuf v1.27.1 // indirect
+	google.golang.org/protobuf v1.27.1
 	gorm.io/driver/postgres v1.3.1
 	gorm.io/gorm v1.23.3
 )
